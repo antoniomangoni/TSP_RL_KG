@@ -1,13 +1,15 @@
 import random
 import pygame
 
+# Could be modularised by using the terrain code to determine the specifics for each of them.
+
 from entities import Tree, MossyRock, SnowyRock, Fish, WoodPath
 class Terrain:
-    def __init__(self, x, y, tile_size, entity_prob):
+    def __init__(self, x, y, tile_size, entity_prob, colour):
         self.x = x
         self.y = y
         self.tile_size = tile_size
-        self.colour = None
+        self.colour = colour  # Set colour before calling create_image
         self.image = self.create_image()
         self.elevation = None
         self.energy_requirement = None
@@ -15,6 +17,7 @@ class Terrain:
         self.entity_type = None
         self.entity_prob = entity_prob
         self.entity_on_tile = None
+
 
     def create_image(self):
         image = pygame.Surface((self.tile_size, self.tile_size))
@@ -44,61 +47,47 @@ class Terrain:
 
 class DeepWater(Terrain):
     def __init__(self, x, y, tile_size, entity_prob):
-        super().__init__(x, y, tile_size, entity_prob)
-        self.colour = (0, 0, 128)
+        super().__init__(x, y, tile_size, entity_prob, (0, 0, 128))
         self.elevation = 0
         self.energy_requirement = 10
         self.entity_type = Fish
-        self.entity_prob = entity_prob
-        self.spawn_entity()
 
 
 class Water(Terrain):
     def __init__(self, x, y, tile_size, entity_prob):
-        super().__init__(x, y, tile_size, entity_prob)
-        self.colour = (0, 0, 255)
+        super().__init__(x, y, tile_size, entity_prob, (0, 0, 255))
         self.elevation = 1
         self.energy_requirement = 6
         self.entity_type = Fish
-        self.entity_prob = entity_prob
-        self.spawn_entity()
 
 class Plains(Terrain):
-    def __init__(self, x, y, ile_size, entity_prob):
-        super().__init__(x, y, ile_size, entity_prob)
-        self.colour = (0, 255, 0)
+    def __init__(self, x, y, tile_size, entity_prob):
+        super().__init__(x, y, tile_size, entity_prob, (0, 200, 0))
         self.elevation = 2
-        self.energy_requirement = 2
+        self.energy_requirement = 4
         self.entity_type = Tree
         self.entity_prob = entity_prob
-        self.spawn_entity()
 
 class Hills(Terrain):
     def __init__(self, x, y, tile_size, entity_prob):
-        super().__init__(x, y, tile_size, entity_prob)
-        self.colour = (0, 128, 0)
+        super().__init__(x, y, tile_size, entity_prob, (20, 128, 20))
         self.elevation = 3
-        self.energy_requirement = 3
-        self.entity_type = Tree
+        self.energy_requirement = 6
+        self.entity_type = MossyRock
         self.entity_prob = entity_prob
-        self.spawn_entity()
 
 class Mountains(Terrain):
     def __init__(self, x, y, tile_size, entity_prob):
-        super().__init__(x, y, tile_size, entity_prob)
-        self.colour = (128, 128, 128)
+        super().__init__(x, y, tile_size, entity_prob, (128, 128, 128))
         self.elevation = 4
         self.energy_requirement = 5
         self.entity_type = MossyRock
         self.entity_prob = entity_prob
-        self.spawn_entity()
 
 class Snow(Terrain):
     def __init__(self, x, y, tile_size, entity_prob):
-        super().__init__(x, y, tile_size, entity_prob)
-        self.colour = (255, 255, 255)
+        super().__init__(x, y, tile_size, entity_prob, (255, 255, 255))
         self.elevation = 5
-        self.energy_requirement = 4
+        self.energy_requirement = 3
         self.entity_type = SnowyRock
         self.entity_prob = entity_prob
-        self.spawn_entity()

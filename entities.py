@@ -1,5 +1,5 @@
 import pygame
-import os
+import os 
 
 class Entity(pygame.sprite.Sprite):
     _images = {}
@@ -7,7 +7,6 @@ class Entity(pygame.sprite.Sprite):
     def __init__(self, x, y, art, tile_size):
         super().__init__()
         # Ensure the image is loaded
-        assert tile_size == 200, "Entity"
         if art not in self._images:
             full_path = f'Pixel_Art/{art}'
             if os.path.exists(full_path):  
@@ -23,7 +22,7 @@ class Entity(pygame.sprite.Sprite):
         self.tile_y = y // tile_size
         self.tile_size = tile_size
 
-        self.entity_type = None
+        self.entity_code = None
         print(f"Size of entity image: {self.image.get_size()}")
 
     def move(self, dx, dy):
@@ -47,6 +46,7 @@ class Entity(pygame.sprite.Sprite):
 class Player(Entity):
     def __init__(self, x, y, tile_size):
         super().__init__(x, y, art='player.png', tile_size=tile_size)
+        self.entity_code = 7
         self.tile_size = tile_size
         self.x = x // tile_size
         self.y = y // tile_size
@@ -60,27 +60,34 @@ class Player(Entity):
 class Outpost(Entity):
     def __init__(self, x, y, tile_size):
         super().__init__(x, y, art='outpost_2.png', tile_size=tile_size)
+        self.entity_code = 6
 
 class WoodPath(Entity):
     def __init__(self, x, y, tile_size):
         super().__init__(x, y, art='wood_path.png', tile_size=tile_size)
-
-class Tree(Entity):
-    def __init__(self, x, y, tile_size):
-        super().__init__(x, y, art='tree_1.png', tile_size=tile_size)
-
-class Rock(Entity):
-    def __init__(self, x, y, art, tile_size):
-        super().__init__(x, y, art, tile_size)
-
-class MossyRock(Rock):
-    def __init__(self, x, y, tile_size):
-        super().__init__(x, y, art='rock_moss.png', tile_size=tile_size)
-
-class SnowyRock(Rock):
-    def __init__(self, x, y, tile_size):
-        super().__init__(x, y, art='rock_snow.png', tile_size=tile_size)
+        self.entity_code = 5
 
 class Fish(Entity):
     def __init__(self, x, y, tile_size):
         super().__init__(x, y, art='fish.png', tile_size=tile_size)
+        self.entity_code = 0
+
+class Tree(Entity):
+    def __init__(self, x, y, tile_size):
+        super().__init__(x, y, art='tree_1.png', tile_size=tile_size)
+        self.entity_code = 1
+
+class Rock(Entity):
+    def __init__(self, x, y, art, tile_size):
+        super().__init__(x, y, art, tile_size)
+        self.entity_code = 2
+
+class MossyRock(Rock):
+    def __init__(self, x, y, tile_size):
+        super().__init__(x, y, art='rock_moss.png', tile_size=tile_size)
+        self.entity_code = 3
+
+class SnowyRock(Rock):
+    def __init__(self, x, y, tile_size):
+        super().__init__(x, y, art='rock_snow.png', tile_size=tile_size)
+        self.entity_code = 4

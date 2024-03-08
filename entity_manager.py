@@ -1,16 +1,18 @@
 import random
 import pygame
+import numpy as np
 
 from terrain_manager import TerrainManager
 from entities import Player, Outpost, WoodPath
 from terrains import Plains, Hills
 
-class EntityManager:
+class EntityManager: 
     def __init__(self, terrain_manager: TerrainManager, number_of_outposts: int = 3):
         self.terrain_manager = terrain_manager
         self.width, self.height = terrain_manager.width, terrain_manager.height
+        self.entity_grid = np.empty((self.width, self.height), dtype=object)
+        self.entity_index_grid = np.zeros((self.width, self.height), dtype=int)
         self.tile_size = terrain_manager.tile_size
-        assert self.tile_size == 200, "Entity Manager"
         self.entity_group = pygame.sprite.Group()
         self.number_of_outposts = number_of_outposts
         self.outpost_terrain = [Plains, Hills]
@@ -21,15 +23,12 @@ class EntityManager:
         # Iterate through the terrain grid to spawn entities based on terrain type
         for x in range(self.width):
             for y in range(self.height):
-                terrain_tile = self.terrain_manager.terrain_grid[x, y]
-                # if terrain_tile.entity_on_tile == None:
-                entity = terrain_tile.spawn_entity()
+                entity = self.terrain_manager.terrain_object_grid[x, y].spawn_entity()
                 if entity:
+                    self.entity_grid[x, y] = entity
+                    self.entity_index_grid[x, y] = entity.entity_code
                     self.entity_group.add(entity)
 
-    def add_outposts(self):
-        # Example logic to add outposts, can be expanded based on game requirements
-        i = 0
     def add_outposts(self):
         added_outposts = 0
         attempts = 0
@@ -37,7 +36,7 @@ class EntityManager:
 
         while added_outposts < self.number_of_outposts and attempts < max_attempts:
             x, y = random.randint(0, self.width - 1), random.randint(0, self.height - 1)
-            terrain_tile = self.terrain_manager.terrain_grid[x][y]
+            terrain_tile = self.terrain_manager.terrain_object_grid[x][y]
 
             # Check if the tile's terrain is suitable for an outpost
             if isinstance(terrain_tile, (Plains, Hills)) and terrain_tile.entity_on_tile is None:

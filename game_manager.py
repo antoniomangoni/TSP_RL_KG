@@ -5,7 +5,7 @@ from entities import Tree, MossyRock, SnowyRock, Fish, Player, Outpost, WoodPath
 from terrain_manager import TerrainManager
 from entity_manager import EntityManager
 from renderer import Renderer
-
+ 
 class GameManager:
     def __init__(self, map_size=3, tile_size=200):
         self.map_size = map_size
@@ -40,7 +40,7 @@ class GameManager:
 
         self.terrain_manager = TerrainManager(heightmap, self.tile_size)
         self.entity_manager = EntityManager(self.terrain_manager, number_of_outposts=4)
-        self.renderer = Renderer(self.terrain_manager, self.entity_manager, tile_size=self.tile_size)
+        self.renderer = Renderer(self.terrain_manager, self.entity_manager)
 
         self.screen = pygame.display.set_mode((self.map_size * self.tile_size, self.map_size * self.tile_size))
 

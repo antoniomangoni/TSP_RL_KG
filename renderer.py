@@ -18,7 +18,7 @@ class Renderer:
             print("Rendering terrain")
             for x in range(self.terrain_manager.width):
                 for y in range(self.terrain_manager.height):
-                    terrain_tile = self.terrain_manager.terrain_grid[x, y]
+                    terrain_tile = self.terrain_manager.terrain_object_grid[x, y]
                     self.terrain_surface.blit(terrain_tile.image, (x * self.tile_size, y * self.tile_size))
             self.terrain_needs_update = False
 
@@ -30,7 +30,7 @@ class Renderer:
 
     def update_tile(self, x, y):
         # Directly access and redraw the terrain tile
-        terrain_tile = self.terrain_manager.terrain_grid[x, y]
+        terrain_tile = self.terrain_manager.terrain_object_grid[x, y]
         self.terrain_surface.blit(terrain_tile.image, (x * self.tile_size, y * self.tile_size))
 
         # Redraw the entity if present on this tile
