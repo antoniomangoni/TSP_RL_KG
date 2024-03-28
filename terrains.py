@@ -73,7 +73,7 @@ class Hills(Terrain):
         super().__init__(x, y, tile_size, entity_prob, (20, 128, 20))
         self.elevation = 3
         self.energy_requirement = 6
-        self.entity_type = MossyRock
+        self.entity_type = Tree
         self.entity_prob = entity_prob
 
 class Mountains(Terrain):
